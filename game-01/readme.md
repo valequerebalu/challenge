@@ -44,8 +44,7 @@ El documento generado puede crecer exponencialmente en contenido. Debes consider
 
 ## Entregables
 
-1. Código funcional en Laravel
-2. Breve explicación de las decisiones técnicas tomadas para optimización
+- Código funcional en Laravel
 
 > 🚨 Buscamos a alguien que pueda anticipar problemas futuros mientras desarrolla.
 
