@@ -21,7 +21,7 @@ class Subscription extends Model
     /**
      * Relación: una suscripción tiene muchos reportes
      */
-    public function reports()
+    public function subscriptionReports()
     {
         return $this->hasMany(SubscriptionReport::class);
     }
