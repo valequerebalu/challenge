@@ -24,7 +24,7 @@ class GenerateSubscriptionReportsJob implements ShouldQueue
 
     public function handle(): void
     {
-        set_time_limit(600);
+        set_time_limit(3600);
         DB::transaction(function () {
             Subscription::factory()
                 ->count($this->count)
