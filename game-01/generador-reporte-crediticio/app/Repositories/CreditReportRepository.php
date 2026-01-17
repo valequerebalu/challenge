@@ -67,7 +67,7 @@ class CreditReportRepository
             ->joinSub($allDebts, 'debts', 'sr.id', '=', 'debts.report_id')
             ->whereBetween('sr.created_at', [$startDate, $endDate])
             ->select([
-                'debts.report_id',                    // 1. ID Reporte
+                'debts.report_id',          // 1. ID Reporte
                 's.full_name',              // 2. Nombre Completo
                 's.document',               // 3. DNI
                 's.email',                  // 4. Email
@@ -75,7 +75,7 @@ class CreditReportRepository
                 'debts.company',            // 6. Compañía
                 'debts.debt_type',          // 7. Tipo de deuda
                 'debts.situation',          // 8. Situación
-                'debts.ed',             // 9. Atraso
+                'debts.ed',                 // 9. Atraso
                 'debts.entidad',            // 10. Entidad
                 'debts.total_amount',        // 11. Monto total
                 'debts.total_line',        // 12. Línea total
