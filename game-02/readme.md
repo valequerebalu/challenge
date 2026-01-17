@@ -1,170 +1,134 @@
-# GildedRose Kata
+# 📦 GildedRose Kata - Refactorización con SOLID y Clean Code
 
-Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a prominent city ran by a friendly innkeeper named Allison. We also buy and sell only the finest goods. Unfortunately, our goods are constantly degrading in Quality as they approach their sell by date.
+Una refactorización completa del clásico GildedRose Kata, implementando principios SOLID, patrones de diseño y clean code para mejorar mantenibilidad, extensibilidad y testabilidad. Incluye la nueva funcionalidad de artículos "Conjured" que degradan su calidad el doble de rápido.
 
-We have a system in place that updates our inventory for us. It was developed by a no-nonsense type named Leeroy, who has moved on to new adventures. Your task is to add the new feature to our system so that we can begin selling a new category of items. First an introduction to our system:
+## ✨ Características Principales
 
-- All items have a SellIn value which denotes the number of days we have to sell the items
-- All items have a Quality value which denotes how valuable the item is
-- At the end of each day our system lowers both values for every item
+- **Refactorización Completa:** Código original transformado de un gran método if-else a una arquitectura limpia con patrones de diseño.
+- **Principio Abierto/Cerrado:** Fácil añadir nuevos tipos de artículos sin modificar código existente.
+- **Artículos Conjured:** Implementación de la nueva regla para artículos conjurados.
+- **Testing Completo:** Tests unitarios y de aprobación que validan el comportamiento.
+- **Clean Code:** Código legible, mantenible y siguiendo mejores prácticas.
 
-Pretty simple, right? Well this is where it gets interesting:
-- Once the sell by date has passed, Quality degrades twice as fast
-- The Quality of an item is never negative
-- "Aged Brie" actually increases in Quality the older it gets
-- The Quality of an item is never more than 50
-- "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
-- "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
-  - Quality increases by 2 when there are 10 days or less 
-  - Quality increases by 3 when there are 5 days or less 
-  - Quality drops to 0 after the concert
+## 🏗️ Arquitectura y Patrones de Diseño
 
+### Principios SOLID Aplicados
+- **S (Single Responsibility):** Cada clase `Updater` maneja un solo tipo de artículo.
+- **O (Open/Closed):** Sistema extensible para nuevos artículos sin cambios en código existente.
+- **L (Liskov Substitution):** Interfaces comunes permiten intercambiar updaters.
+- **I (Interface Segregation):** `ItemUpdater` es específica y minimalista.
+- **D (Dependency Inversion):** Dependencia de abstracciones, no concretos.
 
-We have recently signed a supplier of conjured items. This requires an update to our system:
+### Patrones de Diseño Implementados
+- **Strategy Pattern:** `ItemUpdater` interface con implementaciones específicas por tipo de artículo.
+- **Factory Pattern:** `GildedRose::getUpdater()` selecciona el updater apropiado basado en el nombre.
+- **Repository Pattern:** (Potencial para futuras expansiones).
 
-- "Conjured" items degrade in Quality twice as fast as normal items
-
-Feel free to make any changes to the UpdateQuality method and add any new code as long as everything still works correctly. However, do not alter the Item class or Items property as those belong to the goblin in the corner who will insta-rage and one-shot you as he doesn't believe in shared code ownership (you can make the UpdateQuality method and Items property static if you like, we'll cover for you).
-
-Just for clarification, an item can never have its Quality increase above 50, however "Sulfuras" is a legendary item and as such its Quality is 80 and it never alters.
-
-## Installation
-
-The kata uses:
-
-- [8.0+](https://www.php.net/downloads.php)
-- [Composer](https://getcomposer.org)
-
-Recommended:
-
-- [Git](https://git-scm.com/downloads)
-
-See [GitHub cloning a repository](https://help.github.com/en/articles/cloning-a-repository) for details on how to
-create a local copy of this project on your computer.
-
-```sh
-git clone git@github.com:emilybache/GildedRose-Refactoring-Kata.git
+### Estructura del Código Refactorizado
+```
+src/
+├── Item.php                 # Clase original (no modificada)
+├── GildedRose.php          # Clase principal refactorizada
+└── Updaters/
+    ├── ItemUpdater.php     # Interface
+    ├── NormalItemUpdater.php
+    ├── AgedBrieUpdater.php
+    ├── BackstageUpdater.php
+    ├── SulfurasUpdater.php
+    └── ConjuredUpdater.php # Nueva implementación
 ```
 
-or
+## 🛠️ Stack Tecnológico
 
-```shell script
-git clone https://github.com/emilybache/GildedRose-Refactoring-Kata.git
-```
+- **Lenguaje:** PHP 8.0+
+- **Testing:** PHPUnit con ApprovalTests
+- **Análisis Estático:** PHPStan
+- **Estándares de Código:** Easy Coding Standard (ECS) - PSR-12
+- **Gestión de Dependencias:** Composer
 
-Install all the dependencies using composer
+## 📋 Requisitos
 
-```shell script
-cd ./GildedRose-Refactoring-Kata/php
+- PHP 8.0 o superior
+- Composer
+
+## 🚀 Instalación y Configuración
+
+### 1. Clonación e Instalación
+```bash
+git clone <url-del-repositorio>
+cd game-02
 composer install
 ```
 
-## Dependencies
-
-The project uses composer to install:
-
-- [PHPUnit](https://phpunit.de/)
-- [ApprovalTests.PHP](https://github.com/approvals/ApprovalTests.php)
-- [PHPStan](https://github.com/phpstan/phpstan)
-- [Easy Coding Standard (ECS)](https://github.com/symplify/easy-coding-standard)
-
-## Folders
-
-- `src` - contains the two classes:
-    - `Item.php` - this class should not be changed
-    - `GildedRose.php` - this class needs to be refactored, and the new feature added
-- `tests` - contains the tests
-    - `GildedRoseTest.php` - starter test.
-- `Fixture`
-    - `texttest_fixture.php` this could be used by an ApprovalTests, or run from the command line
-
-## Fixture
-
-To run the fixture from the php directory:
-
-```shell
-php .\fixtures\texttest_fixture.php 10
+### 2. Verificación
+```bash
+composer tests  # Ejecutar tests
+composer check-cs  # Verificar estándares de código
+composer phpstan  # Análisis estático
 ```
 
-Change **10** to the required days.
+## 📖 Uso
 
-## Testing
+### Ejecución del Sistema
+Para simular el comportamiento del sistema por N días:
+```bash
+php fixtures/texttest_fixture.php 10
+```
+Cambia `10` por el número de días deseado.
 
-PHPUnit is configured for testing, a composer script has been provided. To run the unit tests, from the root of the PHP
-project run:
+### Tipos de Artículos Soportados
+- **Normal:** Calidad -1 por día, -2 después de sellIn < 0.
+- **Aged Brie:** Calidad +1 por día, +2 después de sellIn < 0 (máx. 50).
+- **Backstage Passes:** +1 por día, +2 si sellIn <=10, +3 si <=5, 0 después del concierto.
+- **Sulfuras:** Nunca cambia (calidad 80).
+- **Conjured:** Calidad -2 por día, -4 después de sellIn < 0.
 
-```shell script
+## 🧪 Testing
+
+### Tests Unitarios
+```bash
 composer tests
 ```
+Incluye tests de aprobación que verifican el output exacto contra archivos aprobados.
 
-A Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias pu="composer tests"`), the same
-PHPUnit `composer tests` can be run:
-
-```shell script
-pu.bat
-```
-
-### Tests with Coverage Report
-
-To run all test and generate a html coverage report run:
-
-```shell script
+### Tests con Cobertura
+```bash
 composer test-coverage
 ```
+Genera reporte HTML en `/builds/index.html` (requiere Xdebug).
 
-The test-coverage report will be created in /builds, it is best viewed by opening /builds/**index.html** in your
-browser.
-
-The [XDEbug](https://xdebug.org/download) extension is required for generating the coverage report.
-
-## Code Standard
-
-Easy Coding Standard (ECS) is configured for style and code standards, **PSR-12** is used. The current code is not upto
-standard!
-
-### Check Code
-
-To check code, but not fix errors:
-
-```shell script
-composer check-cs
-``` 
-
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias cc="composer check-cs"`), the same
-PHPUnit `composer check-cs` can be run:
-
-```shell script
-cc.bat
-```
-
-### Fix Code
-
-ECS provides may code fixes, automatically, if advised to run --fix, the following script can be run:
-
-```shell script
-composer fix-cs
-```
-
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias fc="composer fix-cs"`), the same
-PHPUnit `composer fix-cs` can be run:
-
-```shell script
-fc.bat
-```
-
-## Static Analysis
-
-PHPStan is used to run static analysis checks:
-
-```shell script
+### Análisis Estático
+```bash
 composer phpstan
 ```
 
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias ps="composer phpstan"`), the same
-PHPUnit `composer phpstan` can be run:
-
-```shell script
-ps.bat
+### Estándares de Código
+```bash
+composer check-cs  # Verificar
+composer fix-cs    # Corregir automáticamente
 ```
 
-**Happy coding**!
+## 🔧 Refactorización Detallada
+
+### Problema Original
+El código inicial tenía un método `updateQuality()` monolítico con múltiples if-else anidados, violando SRP y OCP. Difícil de mantener y extender.
+
+### Solución Implementada
+1. **Extracción de Lógica:** Creación de interface `ItemUpdater` y clases concretas por tipo.
+2. **Polimorfismo:** `GildedRose` delega la actualización a updaters específicos.
+3. **Extensibilidad:** Añadir nuevos artículos requiere solo una nueva clase updater.
+4. **Artículos Conjured:** Implementados con degradación doble (-2/-4).
+
+### Beneficios
+- **Mantenibilidad:** Código modular y fácil de entender.
+- **Testabilidad:** Cada updater se puede testear independientemente.
+- **Extensibilidad:** Nuevos tipos sin modificar código existente.
+- **Legibilidad:** Separación clara de responsabilidades.
+
+## 🎯 Lecciones Aprendidas
+
+Esta refactorización demuestra cómo aplicar principios SOLID en código legacy, transformando un sistema rígido en uno flexible y mantenible. El patrón Strategy permite extensibilidad sin romper cambios, y los tests aseguran que el comportamiento se preserve.
+
+---
+
+*Refactorizado siguiendo las mejores prácticas de desarrollo de software.*
