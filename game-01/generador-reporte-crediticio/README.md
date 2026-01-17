@@ -104,7 +104,7 @@ php artisan serve
 En una terminal separada, inicia el worker de queues:
 
 ```bash
-php artisan queue:work --timeout=600
+php artisan queue:work --timeout=0
 ```
 
 ### 6. Testing
